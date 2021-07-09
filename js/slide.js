@@ -131,17 +131,35 @@ export default class Slide {
     this.onStart = this.onStart.bind(this);
     this.onMove = this.onMove.bind(this);
     this.onEnd = this.onEnd.bind(this);
+
+ 
     this.upDatePosition = this.upDatePosition.bind(this);
     this.moveSlide = this.moveSlide.bind(this);
     this.onResize = debounce(this.onResize.bind(this), 200);
+    this.activePrevSlide = this.activePrevSlide.bind(this)
+    this.activeNextSlide = this.activeNextSlide.bind(this)
   }
-
+  
   init() {
     this.bindEvents();
     this.transition(true);
     this.addSlideEvents();
     this.slidesConfig();
     this.addResizeEvent();
+    this.changeSlide(0)
     return this;
+  }
+}
+
+export class SlideNav extends Slide {
+  addArrow(prev, next) {
+    this.prevElement = document.querySelector(prev)
+    this.nextElement = document.querySelector(next)
+    this.addArrowEvents()
+  }
+
+  addArrowEvents() {
+    this.prevElement.addEventListener('click', this.activePrevSlide)
+    this.nextElement.addEventListener('click', this.activeNextSlide)
   }
 }
